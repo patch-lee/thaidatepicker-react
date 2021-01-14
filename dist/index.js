@@ -498,8 +498,7 @@ dayjs__default.locale('th');
 DatePicker.registerLocale('th', locale);
 DatePicker.setDefaultLocale('th');
 var months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
-
-var CustomInput = function CustomInput(_ref) {
+var CustomInput = React__default.forwardRef(function (_ref, ref) {
   var value = _ref.value,
       onClick = _ref.onClick,
       placeholderName = _ref.placeholderName,
@@ -515,17 +514,12 @@ var CustomInput = function CustomInput(_ref) {
   }
 
   return /*#__PURE__*/React__default.createElement(antd.Input, {
+    ref: ref,
     value: thaiDate,
     onClick: onClick,
     placeholder: placeholderName,
     style: style
   });
-};
-
-var CustomInputWrapper = React__default.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React__default.createElement("div", {
-    ref: ref
-  }, /*#__PURE__*/React__default.createElement(CustomInput, props));
 });
 var headerStyle = {
   margin: 10,
@@ -560,13 +554,9 @@ var range = function range(startVal, endVal, increment) {
 var WatDatePicker = function WatDatePicker(props) {
   var _props$yearBoundary;
 
-  var _useState = React.useState(props.value ? props.value : null),
-      value = _useState[0],
-      setValue = _useState[1];
-
-  var _useState2 = React.useState(value ? dayjs.isDayjs(value) ? new Date(value.format('YYYY-MM-DD')) : new Date(value) : null),
-      selectedDate = _useState2[0],
-      setSelectedDate = _useState2[1];
+  var _useState = React.useState(null),
+      selectedDate = _useState[0],
+      setSelectedDate = _useState[1];
 
   var thisYear = dayjs__default().year();
   var yearBoundary = (_props$yearBoundary = props.yearBoundary) != null ? _props$yearBoundary : 50;
@@ -574,6 +564,14 @@ var WatDatePicker = function WatDatePicker(props) {
   var highlightWithRanges = [{
     'react-datepicker__day--highlighted-today': [new Date()]
   }];
+  React.useEffect(function () {
+    var value = props.value ? props.value : null;
+    var a = value ? dayjs.isDayjs(value) ? new Date(value.format('YYYY-MM-DD')) : new Date(value) : null;
+    setSelectedDate(a);
+    return function () {
+      setSelectedDate(null);
+    };
+  }, [props.value]);
   return /*#__PURE__*/React__default.createElement(DatePicker__default, _extends({
     locale: "th",
     renderCustomHeader: function renderCustomHeader(_ref2) {
@@ -629,12 +627,11 @@ var WatDatePicker = function WatDatePicker(props) {
     onChange: function onChange(date) {
       setSelectedDate(date);
       var dayjsObj = dayjs__default(date).isValid() ? dayjs__default(date) : null;
-      setValue(dayjsObj ? dayjsObj.format('YYYY-MM-DD') : '');
       var thaiDate = dayjsObj ? "" + (dayjsObj.year() + 543) + dayjsObj.format('-MM-DD') : '';
       props.onChange(dayjsObj ? dayjsObj.format('YYYY-MM-DD') : '', thaiDate);
     },
     highlightDates: highlightWithRanges,
-    customInput: /*#__PURE__*/React__default.createElement(CustomInputWrapper, {
+    customInput: /*#__PURE__*/React__default.createElement(CustomInput, {
       placeholderName: props.placeholder,
       displayFormat: props.displayFormat,
       style: props.inputStyle,
