@@ -586,8 +586,9 @@ var WatDatePicker = function WatDatePicker(props) {
           nextMonthButtonDisabled = _ref2.nextMonthButtonDisabled;
       return /*#__PURE__*/React__default.createElement("div", {
         style: headerStyle
-      }, /*#__PURE__*/React__default.createElement("button", {
+      }, props.hideNextPrevButton ? null : /*#__PURE__*/React__default.createElement("button", {
         className: "borderless",
+        type: 'button',
         onClick: decreaseMonth,
         disabled: prevMonthButtonDisabled
       }, /*#__PURE__*/React__default.createElement(LeftOutlined, null)), /*#__PURE__*/React__default.createElement("select", {
@@ -614,9 +615,10 @@ var WatDatePicker = function WatDatePicker(props) {
           key: option,
           value: option
         }, option + 543);
-      })), /*#__PURE__*/React__default.createElement("button", {
+      })), props.hideNextPrevButton ? null : /*#__PURE__*/React__default.createElement("button", {
         className: "borderless",
         onClick: increaseMonth,
+        type: 'button',
         disabled: nextMonthButtonDisabled
       }, /*#__PURE__*/React__default.createElement(RightOutlined, null)));
     },
