@@ -112,13 +112,16 @@ export const WatDatePicker = (props) => {
         nextMonthButtonDisabled
       }) => (
         <div style={headerStyle}>
-          <button
-            className='borderless'
-            onClick={decreaseMonth}
-            disabled={prevMonthButtonDisabled}
-          >
-            <LeftOutlined />
-          </button>
+          {props.hideNextPrevButton ? null : (
+            <button
+              className='borderless'
+              type={'button'}
+              onClick={decreaseMonth}
+              disabled={prevMonthButtonDisabled}
+            >
+              <LeftOutlined />
+            </button>
+          )}
 
           <select
             className='borderless'
@@ -146,13 +149,16 @@ export const WatDatePicker = (props) => {
             ))}
           </select>
 
-          <button
-            className='borderless'
-            onClick={increaseMonth}
-            disabled={nextMonthButtonDisabled}
-          >
-            <RightOutlined />
-          </button>
+          {props.hideNextPrevButton ? null : (
+            <button
+              className='borderless'
+              onClick={increaseMonth}
+              type={'button'}
+              disabled={nextMonthButtonDisabled}
+            >
+              <RightOutlined />
+            </button>
+          )}
         </div>
       )}
       isClearable={props.disabled ? false : props.clearable}
