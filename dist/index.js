@@ -563,13 +563,9 @@ var range = function range(startVal, endVal, increment) {
 var WatDatePicker = function WatDatePicker(props) {
   var _props$yearBoundary, _props$clearable;
 
-  var _useState = React.useState(props.value ? props.value : null),
-      value = _useState[0],
-      setValue = _useState[1];
-
-  var _useState2 = React.useState(value ? new Date(value) : null),
-      selectedDate = _useState2[0],
-      setSelectedDate = _useState2[1];
+  var _useState = React.useState(null),
+      selectedDate = _useState[0],
+      setSelectedDate = _useState[1];
 
   var yearBoundary = (_props$yearBoundary = props.yearBoundary) != null ? _props$yearBoundary : 99;
   var thisYear = dayjs().year();
@@ -579,9 +575,9 @@ var WatDatePicker = function WatDatePicker(props) {
   var highlightWithRanges = [{
     'react-datepicker__day--highlighted-today': [new Date()]
   }];
-  useEffect(function () {
+  React.useEffect(function () {
     var value = props.value ? props.value : null;
-    var parsedValue = value ? new Date(value) : null;
+    var parsedValue = value ? isDayjs(value) ? new Date(value.format('YYYY-MM-DD')) : new Date(value) : null;
     setSelectedDate(parsedValue);
     return function () {
       setSelectedDate(null);
