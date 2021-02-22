@@ -575,6 +575,14 @@ var WatDatePicker = function WatDatePicker(props) {
   var highlightWithRanges = [{
     'react-datepicker__day--highlighted-today': [new Date()]
   }];
+  useEffect(function () {
+    var value = props.value ? props.value : null;
+    var parsedValue = value ? new Date(value) : null;
+    setSelectedDate(parsedValue);
+    return function () {
+      setSelectedDate(null);
+    };
+  }, [props.value]);
   return /*#__PURE__*/React.createElement(DatePicker, _extends({
     locale: "th",
     renderCustomHeader: function renderCustomHeader(_ref2) {

@@ -37,14 +37,18 @@ const CustomInput = ({
   displayFormat,
   disabled,
   readOnly,
-  style,
+  style
 }) => {
   let thaiDate = ''
   if (value !== '') {
     const date = dayjs(value)
     const thaiYear = date.year() + 543
-    const wrappedDisplayFormat = displayFormat ? displayFormat.replace(/YYYY/, thaiYear).replace(/YY/, thaiYear % 100) : null
-    thaiDate = (wrappedDisplayFormat && `${date.format(wrappedDisplayFormat)}`) || `${thaiYear}${date.format('-MM-DD')}`
+    const wrappedDisplayFormat = displayFormat
+      ? displayFormat.replace(/YYYY/, thaiYear).replace(/YY/, thaiYear % 100)
+      : null
+    thaiDate =
+      (wrappedDisplayFormat && `${date.format(wrappedDisplayFormat)}`) ||
+      `${thaiYear}${date.format('-MM-DD')}`
   }
   return (
     <Input
@@ -83,12 +87,18 @@ export const range = (startVal = 0, endVal = 0, increment = 0) => {
 
 export const WatDatePicker = (props) => {
   const [value, setValue] = useState(props.value ? props.value : null)
-  const [selectedDate, setSelectedDate] = useState(value ? new Date(value) : null)
+  const [selectedDate, setSelectedDate] = useState(
+    value ? new Date(value) : null
+  )
 
   const yearBoundary = props.yearBoundary ?? 99
   const thisYear = dayjs().year()
-  const minYear = props.minDate ? dayjs(props.minDate).year() : thisYear - yearBoundary
-  const maxYear = props.maxDate ? dayjs(props.maxDate).year() : thisYear + yearBoundary
+  const minYear = props.minDate
+    ? dayjs(props.minDate).year()
+    : thisYear - yearBoundary
+  const maxYear = props.maxDate
+    ? dayjs(props.maxDate).year()
+    : thisYear + yearBoundary
   const years = range(minYear, maxYear, 1)
 
   const highlightWithRanges = [
@@ -96,6 +106,15 @@ export const WatDatePicker = (props) => {
       'react-datepicker__day--highlighted-today': [new Date()]
     }
   ]
+  useEffect(() => {
+    const value = props.value ? props.value : null
+    const parsedValue = value ? new Date(value) : null
+
+    setSelectedDate(parsedValue)
+    return () => {
+      setSelectedDate(null)
+    }
+  }, [props.value])
   return (
     <DatePicker
       locale='th'
@@ -162,7 +181,9 @@ export const WatDatePicker = (props) => {
       maxDate={props.maxDate ? new Date(props.maxDate) : null}
       dateFormat={props.dateFormat ? props.dateFormat : 'yyyy-MM-dd'}
       selected={selectedDate}
-      isClearable={!(props.disabled || props.readOnly) && (props.clearable ?? true)}
+      isClearable={
+        !(props.disabled || props.readOnly) && (props.clearable ?? true)
+      }
       disabled={props.disabled}
       readOnly={props.readOnly}
       onChange={(date) => {
