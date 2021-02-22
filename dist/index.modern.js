@@ -4,7 +4,7 @@ import { Input } from 'antd';
 import LeftOutlined from '@ant-design/icons/LeftOutlined';
 import RightOutlined from '@ant-design/icons/RightOutlined';
 import 'react-datepicker/dist/react-datepicker.css';
-import dayjs from 'dayjs';
+import dayjs, { isDayjs } from 'dayjs';
 import 'dayjs/locale/th';
 
 function _extends() {

@@ -7,7 +7,7 @@ import RightOutlined from '@ant-design/icons/RightOutlined'
 import 'react-datepicker/dist/react-datepicker.css'
 import './styles.module.css'
 
-import dayjs from 'dayjs'
+import dayjs, { isDayjs } from 'dayjs'
 import th from './locale/th'
 import 'dayjs/locale/th'
 dayjs.locale('th')
