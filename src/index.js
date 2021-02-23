@@ -86,7 +86,10 @@ export const range = (startVal = 0, endVal = 0, increment = 0) => {
 }
 
 export const WatDatePicker = (props) => {
-  const [selectedDate, setSelectedDate] = useState(null)
+  const [value, setValue] = useState(props.value ? props.value : null)
+  const [selectedDate, setSelectedDate] = useState(
+    value ? new Date(value) : null
+  )
 
   const yearBoundary = props.yearBoundary ?? 99
   const thisYear = dayjs().year()
@@ -106,11 +109,7 @@ export const WatDatePicker = (props) => {
 
   useEffect(() => {
     const value = props.value ? props.value : null
-    const parsedValue = value
-      ? isDayjs(value)
-        ? new Date(value.format('YYYY-MM-DD'))
-        : new Date(value)
-      : null
+    const parsedValue = value ? new Date(value) : null
 
     setSelectedDate(parsedValue)
     return () => {
